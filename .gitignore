@@ -21,3 +21,26 @@ wasm_exec.js
 # OS
 .DS_Store
 Thumbs.db
+
+# Node.js
+node_modules/
+
+# Build output
+dist/
+package-lock.json
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# Environment
+.env
+
+# Coverage
+*.coverage
+
+# Temp and backup files
+*.tmp
+*.bak

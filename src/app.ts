@@ -46,7 +46,7 @@ function sendRequest(method: string, params: any = null): any {
     const requestJSON = JSON.stringify(request);
     console.log('Sending request:', requestJSON);
 
-    const responseJSON = window.mcpHandleRequest(requestJSON);
+    const responseJSON = (window as any).mcpHandleRequest(requestJSON);
     console.log('Received response:', responseJSON);
 
     const response = JSON.parse(responseJSON);
@@ -119,7 +119,7 @@ WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject)
 
         // Wait for server to be ready
         const checkReady = setInterval(() => {
-            if (window.mcpServerReady) {
+            if ((window as any).mcpServerReady) {
                 clearInterval(checkReady);
                 updateStatus('ready', 'Server Ready');
 

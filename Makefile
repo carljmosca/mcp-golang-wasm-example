@@ -10,6 +10,8 @@ build:
 	else \
 		cp "$$(go env GOROOT)/misc/wasm/wasm_exec.js" .; \
 	fi
+	@echo "Building TypeScript..."
+	npm run build
 	@echo "Build complete!"
 
 # Serve the application locally

@@ -20,5 +20,3 @@ declare global {
     var mcpServerReady: boolean;
     function mcpHandleRequest(requestJSON: string): string;
 }
-
-export { };
