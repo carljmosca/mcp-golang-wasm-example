@@ -1,0 +1,17 @@
+{
+  "name": "mcp-golang-wasm-example",
+  "version": "1.0.0",
+  "description": "A **Model Context Protocol (MCP)** server implementation in Go that runs in the browser via WebAssembly. This project demonstrates how to build an MCP server that can be executed client-side using WASM, enabling streamable HTTP communication without external dependencies.",
+  "main": "wasm_exec.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
