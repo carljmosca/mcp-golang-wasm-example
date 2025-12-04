@@ -144,6 +144,29 @@
             margin-top: 1.5rem;
         }
 
+        select, input[type="text"] {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-family: inherit;
+            margin: 0;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            outline: none;
+        }
+
+        select:focus, input[type="text"]:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        select:disabled, input[type="text"]:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         button {
             padding: 0.75rem 1.5rem;
             border: none;

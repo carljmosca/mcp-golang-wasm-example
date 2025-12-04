@@ -75,6 +75,20 @@ func NewMCPServer() *MCPServer {
 		},
 	})
 
+	// Register the add tool
+	server.registerTool(Tool{
+		Name:        "add",
+		Description: "Returns the sum of two numbers (a + b)",
+		InputSchema: map[string]interface{}{
+			"type": "object",
+			"properties": map[string]interface{}{
+				"a": map[string]interface{}{"type": "number"},
+				"b": map[string]interface{}{"type": "number"},
+			},
+			"required": []string{"a", "b"},
+		},
+	})
+
 	return server
 }
 
@@ -144,6 +158,23 @@ func (s *MCPServer) handleToolCall(req JSONRPCRequest) string {
 				{
 					Type: "text",
 					Text: currentTime,
+				},
+			},
+			IsError: false,
+		}
+		return s.successResponse(req.ID, result)
+	case "add":
+		aVal, aOk := params.Arguments["a"].(float64)
+		bVal, bOk := params.Arguments["b"].(float64)
+		if !aOk || !bOk {
+			return s.errorResponse(req.ID, -32602, "Parameters 'a' and 'b' must be numbers", nil)
+		}
+		sum := aVal + bVal
+		result := ToolResult{
+			Content: []ContentBlock{
+				{
+					Type: "text",
+					Text: fmt.Sprintf("%g", sum),
 				},
 			},
 			IsError: false,

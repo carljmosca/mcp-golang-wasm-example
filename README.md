@@ -7,14 +7,7 @@ A **Model Context Protocol (MCP)** server implementation in Go that runs in the 
 - **Pure Go Implementation**: Built using Go's standard library with no external dependencies
 - **WebAssembly Support**: Runs entirely in the browser via WASM
 - **MCP Protocol Compliant**: Implements the Model Context Protocol specification (version 2024-11-05)
-- **JSON-RPC 2.0**: Standard JSON-RPC communication protocol
-- **Example Tool**: Includes a `getCurrentTime` tool demonstrating tool implementation
-- **Beautiful UI**: Modern, responsive web interface with gradient styling and animations
-- **Streamable HTTP**: Efficient communication pattern suitable for browser environments
 
-## 🏗️ Architecture
-
-The server uses a streamable HTTP approach where:
 
 1. **Go WASM Module**: Compiles to WebAssembly and exposes JavaScript functions
 2. **JavaScript Bridge**: Handles communication between the browser and WASM
@@ -63,7 +56,7 @@ python3 -m http.server 8080
 
 1. **Initialize Server**: Click "Initialize Server" to establish the MCP connection
 2. **List Tools**: View all available tools and their schemas
-3. **Call Tool**: Execute the `getCurrentTime` tool to get the current time in RFC3339 format
+3. **Call Tool**: Select a tool from the dropdown, enter parameters (space-separated), and execute the tool. For example, use `add 2 3` to get the sum of 2 and 3, or select `getCurrentTime` with no parameters.
 
 ### Programmatic Usage
 
@@ -74,8 +67,8 @@ const request = {
     id: 1,
     method: "tools/call",
     params: {
-        name: "getCurrentTime",
-        arguments: {}
+        name: "add",
+        arguments: { a: 2, b: 3 }
     }
 };
 
@@ -94,66 +87,48 @@ console.log(response.result);
 | `tools/list` | List all available tools |
 | `tools/call` | Execute a specific tool |
 
-### Example Tool: getCurrentTime
 
+### Example Tools
+
+#### getCurrentTime
 ```json
 {
-  "name": "getCurrentTime",
-  "description": "Returns the current time in RFC3339 format",
-  "inputSchema": {
-    "type": "object",
-    "properties": {},
-    "required": []
-  }
+    "name": "getCurrentTime",
+    "description": "Returns the current time in RFC3339 format",
+    "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+    }
+}
+```
+
+#### add
+```json
+{
+    "name": "add",
+    "description": "Returns the sum of two numbers (a + b)",
+    "inputSchema": {
+        "type": "object",
+        "properties": {
+            "a": { "type": "number" },
+            "b": { "type": "number" }
+        },
+        "required": ["a", "b"]
+    }
 }
 ```
 
 ## 🔧 Adding New Tools
 
-To add a new tool to the server:
+## 🔧 Adding or Using Tools
 
-1. **Define the Tool** in `NewMCPServer()`:
+To use a tool, select it from the dropdown in the UI and enter its parameters (space-separated). For example:
 
-```go
-server.registerTool(Tool{
-    Name:        "myNewTool",
-    Description: "Description of what the tool does",
-    InputSchema: map[string]interface{}{
-        "type": "object",
-        "properties": map[string]interface{}{
-            "param1": map[string]interface{}{
-                "type":        "string",
-                "description": "First parameter",
-            },
-        },
-        "required": []string{"param1"},
-    },
-})
-```
+- For `add`, enter: `2 3` (returns 5)
+- For `getCurrentTime`, no parameters are needed
 
-2. **Implement the Handler** in `handleToolCall()`:
-
-```go
-case "myNewTool":
-    param1 := params.Arguments["param1"].(string)
-    // Your tool logic here
-    result := ToolResult{
-        Content: []ContentBlock{
-            {
-                Type: "text",
-                Text: "Result from myNewTool",
-            },
-        },
-        IsError: false,
-    }
-    return s.successResponse(req.ID, result)
-```
-
-3. **Rebuild** the WASM binary:
-
-```bash
-make build
-```
+To add a new tool to the server, define it in `NewMCPServer()` and implement its handler in `handleToolCall()`, then rebuild the WASM binary.
 
 ## 📁 Project Structure
 

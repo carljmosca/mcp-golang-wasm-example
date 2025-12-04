@@ -52,9 +52,13 @@
                 <button class="btn-secondary" onclick="listTools()" id="listBtn" disabled>
                     <span>List Tools</span>
                 </button>
-                <button class="btn-primary" onclick="callGetCurrentTime()" id="callBtn" disabled>
-                    <span>Call getCurrentTime Tool</span>
-                </button>
+                <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 1rem;">
+                    <select id="toolSelect" disabled style="min-width: 180px;"></select>
+                    <input type="text" id="toolParams" placeholder="Parameters (space-separated)" style="min-width: 180px;" disabled />
+                    <button class="btn-primary" onclick="callSelectedTool()" id="callToolBtn" disabled>
+                        <span>Call Tool</span>
+                    </button>
+                </div>
             </div>
 
             <h3>Response Output</h3>

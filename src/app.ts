@@ -101,13 +101,54 @@ function sendRequest(method: string, params: any = null): any {
                 </div>
             `).join('');
         }
+
+        // Populate tool dropdown
+        const toolSelect = document.getElementById('toolSelect') as HTMLSelectElement;
+        if (toolSelect) {
+            toolSelect.innerHTML = tools.map((tool: any) => `<option value="${tool.name}">${tool.name}</option>`).join('');
+            toolSelect.disabled = false;
+        }
+        // Enable parameter input and call button
+        const toolParams = document.getElementById('toolParams') as HTMLInputElement;
+        const callToolBtn = document.getElementById('callToolBtn') as HTMLButtonElement;
+        if (toolParams) toolParams.disabled = false;
+        if (callToolBtn) callToolBtn.disabled = false;
+        // Store tools for later use
+        (window as any).availableTools = tools;
     }
 };
 
-(window as any).callGetCurrentTime = function (): void {
+
+// Call selected tool with parameters
+(window as any).callSelectedTool = function (): void {
+    const toolSelect = document.getElementById('toolSelect') as HTMLSelectElement;
+    const toolParams = document.getElementById('toolParams') as HTMLInputElement;
+    if (!toolSelect || !toolParams) return;
+
+    const selectedTool = toolSelect.value;
+    const paramInput = toolParams.value.trim();
+    const tools = (window as any).availableTools || [];
+    const toolDef = tools.find((t: any) => t.name === selectedTool);
+
+    let args: any = {};
+    if (toolDef && toolDef.inputSchema && toolDef.inputSchema.properties) {
+        const paramNames = Object.keys(toolDef.inputSchema.properties);
+        const paramValues = paramInput.length > 0 ? paramInput.split(/\s+/) : [];
+        paramNames.forEach((name, idx) => {
+            let val = paramValues[idx];
+            // Try to convert to number if schema says so
+            if (toolDef.inputSchema.properties[name].type === "number" && val !== undefined) {
+                const numVal = Number(val);
+                args[name] = isNaN(numVal) ? val : numVal;
+            } else if (val !== undefined) {
+                args[name] = val;
+            }
+        });
+    }
+
     sendRequest('tools/call', {
-        name: 'getCurrentTime',
-        arguments: {}
+        name: selectedTool,
+        arguments: args
     });
 };
 
@@ -130,8 +171,6 @@ WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject)
 
                 if (initBtn) initBtn.disabled = false;
                 if (listBtn) listBtn.disabled = false;
-                if (callBtn) callBtn.disabled = false;
-
                 displayOutput('MCP Server is ready. Click "Initialize Server" to begin.');
             }
         }, 100);
