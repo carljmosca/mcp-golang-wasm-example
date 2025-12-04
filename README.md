@@ -16,11 +16,25 @@ A **Model Context Protocol (MCP)** server implementation in Go that runs in the 
 
 ## 🚀 Quick Start
 
+
 ### Prerequisites
 
 - Go 1.21 or higher
 - Python 3 (for local HTTP server)
 - Modern web browser with WebAssembly support
+- **Or use the included Dev Container for a pre-configured environment**
+
+### Using Dev Container (Recommended)
+
+This project includes a [Dev Container](https://containers.dev/) configuration for VS Code. You do not need to install Go or Python locally.
+
+**Steps:**
+1. Open the project in VS Code.
+2. If prompted, "Reopen in Container" (or use the Command Palette: `Dev Containers: Reopen in Container`).
+3. The container will build with Go and Python pre-installed, and VS Code extensions for Go and Python enabled.
+4. Use the integrated terminal to run `make build` and `make serve` as described below.
+
+This ensures a consistent development environment for all contributors.
 
 ### Build and Run
 

@@ -1,0 +1,24 @@
+{
+  "name": "MCP Go WASM DevContainer",
+  "image": "mcr.microsoft.com/devcontainers/go:1.21",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    }
+  },
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "postCreateCommand": "make build",
+  "forwardPorts": [8080],
+  "mounts": ["source=${localWorkspaceFolder}/.git,target=/workspace/.git,type=bind"],
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "golang.Go",
+        "ms-python.python"
+      ]
+    }
+  }
+}
