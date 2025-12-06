@@ -1,3 +1,17 @@
+// Copyright 2025 Mosca IT LLC
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 //go:build wasm
 // +build wasm
 
@@ -67,7 +81,7 @@ func NewMCPServer() *MCPServer {
 	// Register the example tool
 	server.registerTool(Tool{
 		Name:        "getCurrentTime",
-		Description: "Returns the current time in RFC3339 format",
+		Description: "Returns the current date and time. Use this when the user asks what time it is, or for any time/date-related query.",
 		InputSchema: map[string]interface{}{
 			"type":       "object",
 			"properties": map[string]interface{}{},
@@ -78,7 +92,7 @@ func NewMCPServer() *MCPServer {
 	// Register the add tool
 	server.registerTool(Tool{
 		Name:        "add",
-		Description: "Returns the sum of two numbers (a + b)",
+		Description: "Adds two given numbers together. Use this for all addition and simple calculation requests.",
 		InputSchema: map[string]interface{}{
 			"type": "object",
 			"properties": map[string]interface{}{
